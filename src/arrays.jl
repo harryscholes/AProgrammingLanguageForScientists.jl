@@ -119,7 +119,7 @@ function BottomKSketch(xs, k::Int, seed::Integer=0)
     n = length(xs)
     k ≤ n || throw(ArgumentError("`k` > `length(xs)`"))
     seed = UInt(seed)
-    heap = binary_maxheap([typemax(UInt)])
+    heap = BinaryMaxHeap([typemax(UInt)])
 
     # Hash all elements in `xs` with a single hashing function
     for i = 1:n
