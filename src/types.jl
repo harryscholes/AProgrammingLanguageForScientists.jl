@@ -171,8 +171,8 @@ struct ReverseComplement <: ComplementDirection end
 
 function _complement(dir::Type{<:ComplementDirection}, x::T) where T<:AbstractNucleicAcid
     d = complementtable(T)
-    dir == ForwardComplement && return join([d[x[i]] for i = 1:length(x)])
-    dir == ReverseComplement && return join([d[x[i]] for i = length(x):-1:1])
+    range = dir == ForwardComplement ? (1:length(x)) : (length(x):-1:1)
+    join([d[x[i]] for i = range])
 end
 
 """

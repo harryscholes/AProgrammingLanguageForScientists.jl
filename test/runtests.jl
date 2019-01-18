@@ -1,5 +1,3 @@
-push!(LOAD_PATH, "/Users/harry/Dropbox/Projects/julia-a-language-for-scientists/src") # TODO DELETE ME
-
 using AProgrammingLanguageForScientists, Test
 using AProgrammingLanguageForScientists: SequenceError, DNA_complement, RNA_complement, complementtable
 
@@ -58,13 +56,23 @@ end
     end
     @testset "DNA" begin
         @test alphabet(DNA) == DNA_alphabet
-        @test complementtable(DNA) == DNA_complement
+        d = complementtable(DNA)
+        @test d == DNA_complement
+        for (a,b) = (('A', 'T'), ('C', 'G'))
+            @test d[a] == b
+            @test d[b] == a
+        end
         @test alphabetsize(DNA) == 4
         @test gccontent(DNA("GCAGCTCGACGT")) == 2/3
     end
     @testset "RNA" for T = (mRNA, rRNA, tRNA)
         @test alphabet(T) == RNA_alphabet
-        @test complementtable(T) == RNA_complement
+        d = complementtable(T)
+        @test d == RNA_complement
+        for (a,b) = (('A', 'U'), ('C', 'G'))
+            @test d[a] == b
+            @test d[b] == a
+        end
         @test alphabetsize(T) == 4
     end
 end
@@ -110,6 +118,7 @@ end
 
 @testset "Translate" begin
     for (dna,protein) = (("GGTGGCACC","GGT"), ("TGGGTCCAG","WVQ"), # Regular
+                         ("GGTGGCACCAA","GGT"), ("TGGGTCCAGA","WVQ"), # Partial codons
                          ("GCGGTTTGA","AV"), # Stop at end
                          ("GCGGTTTGAGCG", "AV") # Stop in middle
                         )
@@ -121,12 +130,17 @@ end
     end
 end
 
+x = DNA"ACGT"
+kv = KmerVector(x, 3)
+IndexStyle(kv)
+
 @testset "Arrays" begin
     @testset for T = (Protein, DNA, mRNA, rRNA, tRNA)
         @testset "Length $l $k" for l = (10, 100, 1000), k = rand(4:8, 10)
             seq = join(rand(alphabet(T), l))
             x = T(seq)
             y = KmerVector(x, k)
+            @test IndexStyle(y) == IndexLinear()
 
             @testset "KmerVector" begin
                 len = length(x) - k + 1
@@ -144,8 +158,15 @@ end
             @testset "MinHashSketch" begin
                 z = MinHashSketch(y, k)
                 @test z == z
-                @test z == MinHashSketch(y, k)
-                @test length(z) == kay(z) == k
+                a = MinHashSketch(y, k)
+                @test z == a
+                for i = rand(1:k, 10), j = rand(1:k, 10)
+                    @test z[i] == a[i]
+                    @test z[[i,j]] == a[[i,j]]
+                end
+                @test length(z) == kay(z) == k == length(hashes(z))
+                @test size(z) == (k,)
+                @test IndexStyle(z) == IndexLinear()
             end
 
             @testset "BottomKSketch" begin
@@ -155,10 +176,18 @@ end
                 else
                     z = BottomKSketch(y, k, s)
                     @test z == z
-                    @test z == BottomKSketch(y, k, s)
+                    a = BottomKSketch(y, k, s)
+                    @test z == a
+                    for i = rand(1:k, 10), j = rand(1:k, 10)
+                        @test z[i] == a[i]
+                        @test z[[i,j]] == a[[i,j]]
+                    end
                     @test length(z) == kay(z) == k
                     @test seed(z) == s
                     @test_throws ArgumentError BottomKSketch(y, l+1)
+                    @test length(z) == kay(z) == k == length(hashes(z))
+                    @test size(z) == (k,)
+                    @test IndexStyle(z) == IndexLinear()
                 end
             end
         end
