@@ -1,7 +1,8 @@
 # Julia: a programming language for scientists
 
 [![Build Status](https://travis-ci.com/harryscholes/AProgrammingLanguageForScientists.jl.svg?branch=master)](https://travis-ci.com/harryscholes/AProgrammingLanguageForScientists.jl)
-[![Coverage Status](https://coveralls.io/repos/github/harryscholes/AProgrammingLanguageForScientists.jl/badge.svg?branch=master)](https://coveralls.io/github/harryscholes/AProgrammingLanguageForScientists.jl?branch=master)
+[![Coveralls](https://coveralls.io/repos/github/harryscholes/AProgrammingLanguageForScientists.jl/badge.svg?branch=master)](https://coveralls.io/github/harryscholes/AProgrammingLanguageForScientists.jl?branch=master)
+[![Codecov](https://codecov.io/gh/harryscholes/AProgrammingLanguageForScientists.jl/branch/master/graph/badge.svg)](https://codecov.io/gh/harryscholes/AProgrammingLanguageForScientists.jl)
 
 `AProgrammingLanguageForScientists.jl` is a companion to the paper _Julia: a programming language for scientists_ that provides bioinformatics code examples as a fully-tested Julia package.
 
