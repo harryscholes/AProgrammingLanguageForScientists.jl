@@ -1,5 +1,3 @@
-push!(LOAD_PATH, "/Users/harry/Dropbox/Projects/julia-a-language-for-scientists/src") # TODO DELETE ME
-
 using AProgrammingLanguageForScientists, Test
 using AProgrammingLanguageForScientists: SequenceError, DNA_complement, RNA_complement, complementtable
 

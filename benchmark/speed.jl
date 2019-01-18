@@ -4,8 +4,6 @@ Array-summation microbenchmarks.
 Refer to `README.md` for installation instructions for the requirments.
 =#
 
-push!(LOAD_PATH, "/Users/harry/Dropbox/Projects/julia-a-language-for-scientists/src") # TODO DELETE ME
-
 cd(@__DIR__)
 
 using AProgrammingLanguageForScientists, BenchmarkTools, Statistics, PyCall, Plots
