@@ -16,9 +16,4 @@ julia> ]
 
 ## Running the benchmarks
 
-To run the benchmarks:
-
-```julia-repl
-julia> include("speed.jl")
-
-```
+Run `benchmark.jl` and `benchmark.py`, then plot the results with `plot.jl`. Example benchmarking results are in `benchmark_julia.json` and `benchmark_python.json`, which are plotted in `timings.pdf`.
